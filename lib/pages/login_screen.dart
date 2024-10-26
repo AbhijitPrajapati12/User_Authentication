@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:user_authenticaton/signup_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,7 +26,12 @@ class _LoginPageState extends State<LoginScreen> {
                     borderRadius: BorderRadius.all(Radius.zero),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const SignUpPage();
+                  }));
+                },
                 child: const Text(
                   'Email/Password Sign Up',
                   style: TextStyle(
