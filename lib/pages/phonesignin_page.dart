@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:user_authenticaton/services/firebase_auth_methods.dart';
 import 'package:user_authenticaton/widgets/custom_button.dart';
 import 'package:user_authenticaton/widgets/custom_textfield.dart';
@@ -15,6 +16,9 @@ class _PhoneSignInPageState extends State<PhoneSignInPage> {
   TextEditingController phoneController = TextEditingController();
 
   void phoneSignin() {
+    // context
+    //     .read<FirebaseAuthMethods>()
+    //     .phoneSignin(context, phoneController.text);
     FirebaseAuthMethods(FirebaseAuth.instance)
         .phoneSignin(context, phoneController.text);
   }

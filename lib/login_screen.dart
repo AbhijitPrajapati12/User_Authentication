@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:user_authenticaton/pages/anonymous_page.dart';
-import 'package:user_authenticaton/pages/facebook_page.dart';
+import 'package:provider/provider.dart';
+
 import 'package:user_authenticaton/pages/login_page.dart';
 import 'package:user_authenticaton/pages/phonesignIn_page.dart';
 import 'package:user_authenticaton/pages/signup_page.dart';
@@ -69,8 +69,10 @@ class _LoginPageState extends State<LoginScreen> {
               CustomButton(
                 title: 'Google Sign In',
                 onTap: () {
-                  FirebaseAuthMethods(FirebaseAuth.instance)
-                      .signWithGoogle(context);
+                  context.read<FirebaseAuthMethods>().signInWithGoogle(context);
+
+                  // FirebaseAuthMethods(FirebaseAuth.instance)
+                  //     .signInWithGoogle(context);
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
                   //     builder: (context) {
@@ -83,25 +85,18 @@ class _LoginPageState extends State<LoginScreen> {
               const SizedBox(height: 10),
               CustomButton(
                 title: 'Facebook Sign In',
-                onTap: () {
-                  // FirebaseAuthMethods(FirebaseAuth.instance)
-                  //     .signInWithFacebook(context);
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const FacebookSignInPage();
-                      },
-                    ),
-                  );
-                },
+                onTap: () {},
               ),
               const SizedBox(height: 10),
               CustomButton(
                 title: 'Anonymous Sign In',
                 onTap: () {
-                  FirebaseAuthMethods(FirebaseAuth.instance)
+                  context
+                      .read<FirebaseAuthMethods>()
                       .signInAnonymously(context);
+
+                  // FirebaseAuthMethods(FirebaseAuth.instance)
+                  //     .signInAnonymously(context);
                 },
               ),
             ],

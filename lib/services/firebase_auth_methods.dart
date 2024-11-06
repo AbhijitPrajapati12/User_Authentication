@@ -1,18 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:google_sign_in/google_sign_in.dart'; //google signin library
-import 'package:user_authenticaton/utils/showOTPdialog.dart';
+import 'package:user_authenticaton/utils/showotpdialog.dart';
+import 'package:user_authenticaton/utils/showsnackbar.dart';
 
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
 
-  void showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  User get user => _auth.currentUser!;
+
+  //State Persistence
+  Stream<User?> get authState => FirebaseAuth.instance.authStateChanges();
+  //FirebaseAuth.isntance.userChanges();
+  //FirebaseAuth.isntance.idTokenChanges();
 
   //Email Sign Up
   Future<void> signUpWithEmail({
@@ -119,7 +121,7 @@ class FirebaseAuthMethods {
   }
 
   //Google Sign in
-  Future<void> signWithGoogle(BuildContext context) async {
+  Future<void> signInWithGoogle(BuildContext context) async {
     try {
       if (kIsWeb) {
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
@@ -147,6 +149,24 @@ class FirebaseAuthMethods {
           }
         }
       }
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message!);
+    }
+  }
+
+  //Sign Out
+  Future<void> signOut(BuildContext context) async {
+    try {
+      await _auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      showSnackBar(context, e.message!);
+    }
+  }
+
+  //Delete Account
+  Future<void> deleteAccount(BuildContext context) async {
+    try {
+      await _auth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
     }
